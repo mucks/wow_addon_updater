@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "wow_addon_updater",
+    "wow_addon_updater_webview",
+    "wow_addon_updater_shared",
+]
