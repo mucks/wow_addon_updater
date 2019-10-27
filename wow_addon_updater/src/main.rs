@@ -16,6 +16,7 @@ use std::path::PathBuf;
 fn main() {
     let url = "https://www.wowinterface.com/downloads/info23056-DetailsDamageMeter.html";
     let path = "/home/shnaky/Downloads";
+    let conf = config::get();
     //let addon = wow_interface::get_addon(url);
     //update();
     server::start();

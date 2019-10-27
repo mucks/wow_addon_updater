@@ -8,7 +8,7 @@ pub struct Addon {
     pub version: String,
 }
 
-#[derive(Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Config {
     pub path: PathBuf,
     pub added: Vec<Addon>,

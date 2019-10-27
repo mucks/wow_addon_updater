@@ -1,9 +1,7 @@
 use crate::err::Error;
 use crate::shared::{Addon, Config};
-use serde::{Deserialize, Serialize};
 use serde_json;
 use std::fs::{self, File};
-use std::path::PathBuf;
 
 pub fn get() -> Result<Config, Error> {
     Ok(if fs::metadata("./config.json").is_ok() {
