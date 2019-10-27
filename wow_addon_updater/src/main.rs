@@ -3,6 +3,7 @@ pub use wow_addon_updater_shared as shared;
 mod api;
 mod config;
 mod err;
+mod server;
 mod ui;
 mod wow_interface;
 
@@ -17,7 +18,7 @@ fn main() {
     let path = "/home/shnaky/Downloads";
     //let addon = wow_interface::get_addon(url);
     //update();
-    ui::run();
+    server::start();
 }
 
 fn update() {

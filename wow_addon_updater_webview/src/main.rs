@@ -17,9 +17,11 @@ pub struct Model {
     fetch_service: FetchService,
     console: ConsoleService,
     value: i64,
+    link: ComponentLink<Model>,
     input_val: String,
     config: Config,
     get_config_task: Option<FetchTask>,
+    add_addon_task: Option<FetchTask>,
 }
 
 pub enum Msg {
@@ -29,6 +31,7 @@ pub enum Msg {
     UpdateInput(String),
     Add,
     GetConfigReady(Result<Config, Error>),
+    AddonAdded,
     Ignore,
 }
 
@@ -36,31 +39,18 @@ impl Component for Model {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, mut link: ComponentLink<Self>) -> Self {
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let mut model = Model {
             console: ConsoleService::new(),
             fetch_service: FetchService::new(),
             value: 0,
+            link: link,
             input_val: "".into(),
             config: Config::default(),
             get_config_task: None,
+            add_addon_task: None,
         };
-        let get_request = Request::get("/api/config")
-            .body(Nothing)
-            .expect("Failed to build request.");
-
-        model.get_config_task = Some(model.fetch_service.fetch(
-            get_request,
-            link.send_back(|response: Response<Json<Result<Config, Error>>>| {
-                let (meta, Json(data)) = response.into_parts();
-                if meta.status.is_success() {
-                    Msg::GetConfigReady(data)
-                } else {
-                    Msg::Ignore
-                }
-            }),
-        ));
-
+        model.get_config();
         model
     }
 
@@ -83,7 +73,23 @@ impl Component for Model {
             Msg::UpdateInput(val) => {
                 self.input_val = val;
             }
-            Msg::Add => {}
+            Msg::Add => {
+                self.console.log(&self.input_val);
+                let post_request = Request::post("/api/add-addon")
+                    .body(Ok(self.input_val.to_owned()))
+                    .expect("Failed to build request.");
+
+                self.add_addon_task = Some(
+                    self.fetch_service.fetch(
+                        post_request,
+                        self.link
+                            .send_back(|res: Response<Result<String, Error>>| Msg::AddonAdded),
+                    ),
+                );
+            }
+            Msg::AddonAdded => {
+                self.get_config();
+            }
             Msg::GetConfigReady(response) => {
                 if let Ok(data) = response {
                     self.config = data;
@@ -96,6 +102,27 @@ impl Component for Model {
 }
 
 impl Model {
+    fn get_config(&mut self) {
+        let get_request = Request::get("/api/config")
+            .body(Nothing)
+            .expect("Failed to build request.");
+
+        self.get_config_task = Some(
+            self.fetch_service.fetch(
+                get_request,
+                self.link
+                    .send_back(|response: Response<Json<Result<Config, Error>>>| {
+                        let (meta, Json(data)) = response.into_parts();
+                        if meta.status.is_success() {
+                            Msg::GetConfigReady(data)
+                        } else {
+                            Msg::Ignore
+                        }
+                    }),
+            ),
+        );
+    }
+
     fn view_addon(&self, addon: &Addon) -> Html<Model> {
         html! {
             <li class="list-group-item"> { &addon.file_name } </li>

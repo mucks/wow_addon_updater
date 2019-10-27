@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "cargo run --bin wow_addon_updater",
+            "label": "cargo deploy & run",
             "type": "shell",
-            "command": "cargo run --bin wow_addon_updater",
+            "command": "cd wow_addon_updater_webview && cargo web deploy && cd .. && cargo run",
         }
     ]
 }
