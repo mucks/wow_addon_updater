@@ -14,15 +14,10 @@ use std::io::Read;
 use std::path::PathBuf;
 
 fn main() {
-    let url = "https://www.wowinterface.com/downloads/info23056-DetailsDamageMeter.html";
-    let path = "/home/shnaky/Downloads";
-    let conf = config::get();
-    //let addon = wow_interface::get_addon(url);
-    //update();
     server::start();
 }
 
-fn update() {
+pub fn update() {
     let conf = config::get().unwrap();
 
     let addons = conf.added.iter().filter(|a| {
@@ -35,11 +30,11 @@ fn update() {
     let mut new_conf = conf.clone();
 
     for addon in addons {
-        if unzip_and_save(&conf.path, addon).is_ok() {
+        if unzip_and_save(&addon.addons_path(&conf.path), addon).is_ok() {
             new_conf.installed.push(addon.clone());
         }
     }
-    config::save(&conf).unwrap();
+    config::save(&new_conf).unwrap();
 }
 
 fn unzip_and_save(path: &PathBuf, addon: &Addon) -> Result<(), err::Error> {

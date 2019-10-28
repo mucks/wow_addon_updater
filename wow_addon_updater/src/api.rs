@@ -10,13 +10,21 @@ pub fn get_config(_req: HttpRequest) -> String {
 
 pub fn add_addon(url: String) -> String {
     let mut conf = config::get().unwrap();
-    conf.added
-        .push(wow_interface::get_addon(&url).unwrap().unwrap());
-    config::save(&conf);
+    if conf.added.iter().find(|a| a.url == url).is_none() {
+        conf.added
+            .push(wow_interface::get_addon(&url).unwrap().unwrap());
+        config::save(&conf).unwrap();
+    }
     "".into()
 }
 
 pub fn save_config(conf: Json<Config>) -> String {
+    println!("{:?}", conf);
     config::save(&conf).unwrap();
+    "".into()
+}
+
+pub fn update() -> String {
+    crate::update();
     "".into()
 }
