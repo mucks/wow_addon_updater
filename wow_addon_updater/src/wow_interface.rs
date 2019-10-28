@@ -1,24 +1,39 @@
+use crate::client;
 use crate::shared::Addon;
+use futures::future::{lazy, Future};
 use select::document::Document;
 use select::predicate::{Attr, Class, Name, Predicate};
 
-pub fn get_addon(url: &str) -> Result<Option<Addon>, reqwest::Error> {
+pub fn get_addon(url: String) -> impl Future<Item = Addon, Error = ()> {
     let download_url = url
         .replace("/downloads/info", "/downloads/download")
         .replace(".html", "");
 
-    let dl_doc = url_to_doc(&download_url)?;
-    let doc = url_to_doc(url)?;
+    client::get_str(url.clone())
+        .map_err(|_| ())
+        .and_then(move |url_content| {
+            client::get_str(download_url.clone())
+                .map_err(|_| ())
+                .and_then(move |download_content| {
+                    let doc = Document::from(url_content.as_str());
+                    let download_doc = Document::from(download_content.as_str());
 
-    Ok(docs_to_addon(url, &doc, &dl_doc))
+                    let (version, patch) = get_version_and_patch(&doc).unwrap();
+                    let (download_url, file_name) =
+                        get_download_url_and_file_name(&download_doc).unwrap();
+
+                    Ok(Addon {
+                        url: url,
+                        download_url: download_url,
+                        file_name: file_name,
+                        version: version,
+                        patch: patch,
+                    })
+                })
+        })
 }
 
-fn url_to_doc(url: &str) -> Result<Document, reqwest::Error> {
-    let html = reqwest::get(url)?.text()?;
-    Ok(Document::from(html.as_str()))
-}
-
-fn docs_to_addon(url: &str, doc: &Document, download_doc: &Document) -> Option<Addon> {
+fn get_version_and_patch(doc: &Document) -> Option<(String, String)> {
     let version = doc
         .find(Attr("id", "version"))
         .next()?
@@ -35,7 +50,11 @@ fn docs_to_addon(url: &str, doc: &Document, download_doc: &Document) -> Option<A
         .text();
     let patch = patch_text.split("(").nth(1)?.split(")").next()?;
 
-    let download_url = download_doc
+    Some((version, patch.into()))
+}
+
+fn get_download_url_and_file_name(doc: &Document) -> Option<(String, String)> {
+    let download_url = doc
         .find(Attr("id", "downloadLanding"))
         .next()?
         .find(Class("manuallink"))
@@ -52,11 +71,5 @@ fn docs_to_addon(url: &str, doc: &Document, download_doc: &Document) -> Option<A
         .split("?")
         .next()?;
 
-    Some(Addon {
-        url: url.into(),
-        download_url: download_url.into(),
-        file_name: file_name.into(),
-        version: version,
-        patch: patch.into(),
-    })
+    Some((download_url.into(), file_name.into()))
 }

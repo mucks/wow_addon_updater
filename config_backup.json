@@ -1,0 +1,105 @@
+{
+    "path": "/home/shnaky/Games/battlenet/drive_c/Program Files (x86)/World of Warcraft",
+    "added": [
+        {
+            "url": "https://www.wowinterface.com/downloads/info25068-DetailsDamageMeterClassic.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25068/DetailsClassic.1.13.2.177.140.zip?157222056713",
+            "file_name": "DetailsClassic.1.13.2.177.140.zip",
+            "version": "v1.13.2.177.140",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info24994-Questie.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file24994/Questie-v5.0.1_2-e2e80b7.zip?157184654515",
+            "file_name": "Questie-v5.0.1_2-e2e80b7.zip",
+            "version": "5.0.1_1",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info25004-WeaponSwingTimer.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25004/WeaponSwingTimer_V4.1.0.zip?156734812315",
+            "file_name": "WeaponSwingTimer_V4.1.0.zip",
+            "version": "V4.1.0",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info24958-AuctionatorClassicquickfix.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file24958/1565622550-Auctionator-ClassicFix(Gepy).zip?156562255215",
+            "file_name": "1565622550-Auctionator-ClassicFix(Gepy).zip",
+            "version": "Classic",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info25185-AtlasLootClassic.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25185/AtlasLootClassic-v1.3.2-classic.zip?157159512615",
+            "file_name": "AtlasLootClassic-v1.3.2-classic.zip",
+            "version": "v1.3.2",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info24924-RealMobHealth.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file24924/RealMobHealth-2.13.zip?156944757013",
+            "file_name": "RealMobHealth-2.13.zip",
+            "version": "2.13",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info25056-ClassicLFG.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25056/ClassicLFG-1.0.0.zip?156675020515",
+            "file_name": "ClassicLFG-1.0.0.zip",
+            "version": "1.0.0",
+            "patch": "1.13.2"
+        }
+    ],
+    "installed": [
+        {
+            "url": "https://www.wowinterface.com/downloads/info25068-DetailsDamageMeterClassic.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25068/DetailsClassic.1.13.2.177.140.zip?157222056713",
+            "file_name": "DetailsClassic.1.13.2.177.140.zip",
+            "version": "v1.13.2.177.140",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info24994-Questie.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file24994/Questie-v5.0.1_2-e2e80b7.zip?157184654515",
+            "file_name": "Questie-v5.0.1_2-e2e80b7.zip",
+            "version": "5.0.1_1",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info25004-WeaponSwingTimer.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25004/WeaponSwingTimer_V4.1.0.zip?156734812315",
+            "file_name": "WeaponSwingTimer_V4.1.0.zip",
+            "version": "V4.1.0",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info24958-AuctionatorClassicquickfix.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file24958/1565622550-Auctionator-ClassicFix(Gepy).zip?156562255215",
+            "file_name": "1565622550-Auctionator-ClassicFix(Gepy).zip",
+            "version": "Classic",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info25185-AtlasLootClassic.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25185/AtlasLootClassic-v1.3.2-classic.zip?157159512615",
+            "file_name": "AtlasLootClassic-v1.3.2-classic.zip",
+            "version": "v1.3.2",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info24924-RealMobHealth.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file24924/RealMobHealth-2.13.zip?156944757013",
+            "file_name": "RealMobHealth-2.13.zip",
+            "version": "2.13",
+            "patch": "1.13.2"
+        },
+        {
+            "url": "https://www.wowinterface.com/downloads/info25056-ClassicLFG.html",
+            "download_url": "https://cdn.wowinterface.com/downloads/file25056/ClassicLFG-1.0.0.zip?156675020515",
+            "file_name": "ClassicLFG-1.0.0.zip",
+            "version": "1.0.0",
+            "patch": "1.13.2"
+        }
+    ]
+}

@@ -43,10 +43,10 @@ pub fn start() {
 
         let server = HttpServer::new(|| {
             App::new()
-                .route("/api/update", web::get().to(update))
+                .route("/api/update", web::get().to_async(update))
                 .route("/api/config", web::get().to(get_config))
                 .route("/api/config", web::post().to(save_config))
-                .route("/api/add-addon", web::post().to(add_addon))
+                .route("/api/add-addon", web::post().to_async(add_addon))
                 .route("*", web::get().to(assets))
         })
         .bind("127.0.0.1:0")

@@ -8,6 +8,5 @@ edition = "2018"
 
 [dependencies]
 yew = "0.9"
-stdweb = "0.4"
 wow_addon_updater_shared = { path = "../wow_addon_updater_shared" }
 failure = "0.1"

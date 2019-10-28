@@ -25,6 +25,28 @@ pub fn get() -> Result<Config, Error> {
     })
 }
 
+use futures::future::Future;
+
+pub fn update_added() -> impl Future<Item = (), Error = ()> {
+    let mut futs = Vec::new();
+    let conf = get().unwrap();
+    for addon in conf.added {
+        futs.push(crate::wow_interface::get_addon(addon.url));
+    }
+    let f = futures::future::join_all(futs);
+
+    f.map_err(|_| ()).then(|x| {
+        x.map_err(|_| ()).and_then(|addons| {
+            let mut conf = get().unwrap();
+            for (conf_addon, addon) in conf.added.iter_mut().zip(addons) {
+                conf_addon.version = addon.version;
+            }
+            save(&conf).unwrap();
+            Ok(())
+        })
+    })
+}
+
 pub fn save(config: &Config) -> Result<(), Error> {
     let f = File::create("./config.json")?;
     serde_json::to_writer(f, config)?;
