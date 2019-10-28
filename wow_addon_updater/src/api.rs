@@ -25,6 +25,6 @@ pub fn save_config(conf: Json<Config>) -> String {
 }
 
 pub fn update() -> String {
-    crate::update();
+    println!("{:?}", crate::update());
     "".into()
 }

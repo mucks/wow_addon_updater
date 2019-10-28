@@ -17,8 +17,9 @@ fn main() {
     server::start();
 }
 
-pub fn update() {
-    let conf = config::get().unwrap();
+pub fn update() -> Result<(), err::Error> {
+    config::update_added()?;
+    let conf = config::get()?;
 
     let addons = conf.added.iter().filter(|a| {
         match conf.installed.iter().find(|b| b.file_name == a.file_name) {
@@ -34,7 +35,8 @@ pub fn update() {
             new_conf.installed.push(addon.clone());
         }
     }
-    config::save(&new_conf).unwrap();
+    config::save(&new_conf)?;
+    Ok(())
 }
 
 fn unzip_and_save(path: &PathBuf, addon: &Addon) -> Result<(), err::Error> {

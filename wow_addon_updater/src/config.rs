@@ -30,3 +30,13 @@ pub fn save(config: &Config) -> Result<(), Error> {
     serde_json::to_writer(f, config)?;
     Ok(())
 }
+
+pub fn update_added() -> Result<(), Error> {
+    let mut conf = get()?;
+    for addon in conf.added.iter_mut() {
+        if let Some(new_addon) = crate::wow_interface::get_addon(&addon.url)? {
+            addon.version = new_addon.version;
+        }
+    }
+    Ok(save(&conf)?)
+}
