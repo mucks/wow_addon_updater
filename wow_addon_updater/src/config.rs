@@ -13,7 +13,7 @@ pub fn get() -> Result<Config, Error> {
             "C:/Program Files (x86)/World of Warcraft".parse()?
         } else if cfg!(unix) {
             let p: PathBuf = std::env::var("HOME")?.parse()?;
-            p.join("Games/battlenet/drive_c/Program Files (x86)/World of Warcraft")
+            p.join("Games/world-of-warcraft/drive_c/Program Files (x86)/World of Warcraft")
         } else {
             "/".parse()?
         };

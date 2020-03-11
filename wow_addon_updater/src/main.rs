@@ -2,9 +2,11 @@ pub use wow_addon_updater_shared as shared;
 
 mod api;
 mod config;
+mod elvui;
 mod err;
 mod server;
 mod ui;
+mod util;
 mod wow_interface;
 
 use shared::{Addon, Config};

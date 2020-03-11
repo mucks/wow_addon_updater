@@ -1,6 +1,4 @@
-use crate::config;
-use crate::shared::Config;
-use crate::wow_interface;
+use crate::{config, elvui, shared::Config, wow_interface};
 use actix_web::web::Json;
 use actix_web::HttpRequest;
 
@@ -11,8 +9,13 @@ pub fn get_config(_req: HttpRequest) -> String {
 pub fn add_addon(url: String) -> String {
     let mut conf = config::get().unwrap();
     if conf.added.iter().find(|a| a.url == url).is_none() {
-        conf.added
-            .push(wow_interface::get_addon(&url).unwrap().unwrap());
+        let addon = if url.contains("tukui.org") {
+            elvui::get_addon(&url).unwrap().unwrap()
+        } else {
+            wow_interface::get_addon(&url).unwrap().unwrap()
+        };
+
+        conf.added.push(addon);
         config::save(&conf).unwrap();
     }
     "".into()

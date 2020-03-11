@@ -1,21 +1,16 @@
 use crate::shared::Addon;
+use crate::util::url_to_doc;
 use select::document::Document;
 use select::predicate::{Attr, Class, Name, Predicate};
 
 pub fn get_addon(url: &str) -> Result<Option<Addon>, reqwest::Error> {
+    let doc = url_to_doc(url)?;
+
     let download_url = url
         .replace("/downloads/info", "/downloads/download")
         .replace(".html", "");
-
     let dl_doc = url_to_doc(&download_url)?;
-    let doc = url_to_doc(url)?;
-
     Ok(docs_to_addon(url, &doc, &dl_doc))
-}
-
-fn url_to_doc(url: &str) -> Result<Document, reqwest::Error> {
-    let html = reqwest::get(url)?.text()?;
-    Ok(Document::from(html.as_str()))
 }
 
 fn docs_to_addon(url: &str, doc: &Document, download_doc: &Document) -> Option<Addon> {

@@ -152,7 +152,7 @@ impl Model {
         html! {
             <>
             <div class="form-group">
-                <label> { "Add wowinterface.com addon link" } </label>
+                <label> { "Add elvui or wowinterface.com addon link" } </label>
                 <input class="form-control" oninput=|e| Msg::UpdateNewAddonUrl(e.value) />
             </div>
             <button class="btn btn-primary" onclick=|_| Msg::Add>{"Add"}</button>
