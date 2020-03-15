@@ -21,6 +21,26 @@ pub fn add_addon(url: String) -> String {
     "".into()
 }
 
+use std::fs;
+
+pub fn delete_addon(url: String) -> String {
+    let mut conf = config::get().unwrap();
+    if let Some(index) = conf.installed.iter().position(|a| a.url == url) {
+        println!("{}", index);
+        if let Some(addon) = conf.installed.get(index) {
+            for path in &addon.dir_paths {
+                let full_path = addon.addons_path(&conf.path).join(path);
+                println!("{}", full_path.to_str().unwrap());
+                fs::remove_dir_all(full_path).unwrap();
+            }
+            conf.installed.remove(index);
+            conf.added.remove(index);
+        }
+    }
+    config::save(&conf).unwrap();
+    "".into()
+}
+
 pub fn save_config(conf: Json<Config>) -> String {
     println!("{:?}", conf);
     config::save(&conf).unwrap();

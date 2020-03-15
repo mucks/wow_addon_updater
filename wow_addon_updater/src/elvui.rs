@@ -24,5 +24,6 @@ fn doc_to_addon(url: &str, doc: &Document) -> Option<Addon> {
         file_name: file_name.into(),
         version: version.into(),
         patch: "8".into(),
+        dir_paths: Vec::new(),
     })
 }

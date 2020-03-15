@@ -33,15 +33,16 @@ pub fn update() -> Result<(), err::Error> {
     let mut new_conf = conf.clone();
 
     for addon in addons {
-        if unzip_and_save(&addon.addons_path(&conf.path), addon).is_ok() {
-            new_conf.installed.push(addon.clone());
+        if let Ok(downloaded_addon) = unzip_and_save(&addon.addons_path(&conf.path), addon.clone())
+        {
+            new_conf.installed.push(downloaded_addon.clone());
         }
     }
     config::save(&new_conf)?;
     Ok(())
 }
 
-fn unzip_and_save(path: &PathBuf, addon: &Addon) -> Result<(), err::Error> {
+fn unzip_and_save(path: &PathBuf, mut addon: Addon) -> Result<Addon, err::Error> {
     let mut resp: reqwest::Response = reqwest::get(&addon.download_url)?;
     let mut buf = Vec::new();
     resp.read_to_end(&mut buf)?;
@@ -51,22 +52,13 @@ fn unzip_and_save(path: &PathBuf, addon: &Addon) -> Result<(), err::Error> {
     for i in 0..archive.len() {
         let mut file = archive.by_index(i).unwrap();
         let outpath = path.join(file.sanitized_name());
-        println!("{}", file.name());
+        let file_path: PathBuf = file.name().parse().unwrap();
+        let addon_dir_path = file_path.iter().next().unwrap().to_str().unwrap();
+        addon.dir_paths.push(addon_dir_path.into());
 
         if (&*file.name()).ends_with('/') {
-            println!(
-                "File {} extracted to \"{}\"",
-                i,
-                outpath.as_path().display()
-            );
             fs::create_dir_all(&outpath).unwrap();
         } else {
-            println!(
-                "File {} extracted to \"{}\" ({} bytes)",
-                i,
-                outpath.as_path().display(),
-                file.size()
-            );
             if let Some(p) = outpath.parent() {
                 if !p.exists() {
                     fs::create_dir_all(&p).unwrap();
@@ -84,6 +76,7 @@ fn unzip_and_save(path: &PathBuf, addon: &Addon) -> Result<(), err::Error> {
             }
         }
     }
+    addon.dir_paths.dedup();
 
-    Ok(())
+    Ok(addon)
 }

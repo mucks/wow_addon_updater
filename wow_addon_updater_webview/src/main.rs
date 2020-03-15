@@ -29,6 +29,7 @@ pub enum Msg {
     UpdateNewAddonUrl(String),
     UpdateWowPath(String),
     Add,
+    Delete(String),
     GetConfigReady(Result<Config, Error>),
     AddonAdded,
     Ignore,
@@ -65,8 +66,21 @@ impl Component for Model {
                 self.config.path = val.parse().unwrap();
             }
             Msg::Add => {
-                let post_request = Request::post("/api/add-addon")
+                let post_request = Request::post("/api/addon/add")
                     .body(Ok(self.new_addon_url.to_owned()))
+                    .expect("Failed to build request.");
+
+                self.add_addon_task = Some(
+                    self.fetch_service.fetch(
+                        post_request,
+                        self.link
+                            .send_back(|_resp: Response<Result<String, Error>>| Msg::AddonAdded),
+                    ),
+                );
+            }
+            Msg::Delete(url) => {
+                let post_request = Request::post("/api/addon/delete")
+                    .body(Ok(url.to_owned()))
                     .expect("Failed to build request.");
 
                 self.add_addon_task = Some(
@@ -143,8 +157,12 @@ impl Model {
     }
 
     fn view_addon(&self, addon: &Addon) -> Html<Model> {
+        let url = addon.url.clone();
         html! {
-            <li class="list-group-item"> { &addon.file_name } </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <p class="p-0 m-0 flex-grow-1">{ &addon.file_name }</p>
+                <button class="btn btn-danger" onclick=|_| Msg::Delete(url.clone())>{ "DELETE" }</button>
+            </li>
         }
     }
 

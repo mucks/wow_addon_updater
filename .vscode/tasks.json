@@ -6,7 +6,12 @@
         {
             "label": "cargo deploy & run",
             "type": "shell",
-            "command": "cd wow_addon_updater_webview && cargo web deploy && cd .. && cargo run",
+            "command": "./run.sh",
+        },
+        {
+            "label": "cargo deploy & install release",
+            "type": "shell",
+            "command": "./build.sh",
         }
     ]
 }

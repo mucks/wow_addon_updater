@@ -8,6 +8,7 @@ pub struct Addon {
     pub file_name: String,
     pub version: String,
     pub patch: String,
+    pub dir_paths: Vec<String>,
 }
 
 impl Addon {

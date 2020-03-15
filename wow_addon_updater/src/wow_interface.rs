@@ -53,5 +53,6 @@ fn docs_to_addon(url: &str, doc: &Document, download_doc: &Document) -> Option<A
         file_name: file_name.into(),
         version: version,
         patch: patch.into(),
+        dir_paths: Vec::new(),
     })
 }
