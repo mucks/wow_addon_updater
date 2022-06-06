@@ -18,5 +18,5 @@ actix-web = "1"
 actix-rt = "0.2"
 futures = "0.1"
 mime_guess = "2"
-rust-embed = "5"
+rust-embed = "6"
 wow_addon_updater_shared = { path = "../wow_addon_updater_shared" }
